@@ -1,0 +1,63 @@
+services:
+  app:
+    image: registry.alialabs.com/web/practicas/javi/api_rest:1.1.1
+    container_name: nodeApi_prod
+    env_file:
+      - .env.prod
+    environment:
+      - NODE_ENV=production
+    ports:
+      - ${HTTP_PUBLIC_PORT}:${HTTP_PORT}
+    volumes:
+      - ./:/usr/src/app:cached
+      - /usr/src/app/node_modules
+      - ./entrypoint:/usr/src/app/entrypoint:ro
+    depends_on:
+      - mysql
+      - mongo
+    
+    entrypoint: ["/usr/src/app/entrypoint/wait-for-it.sh", "mysql:3306", "--", "npm", "start"]
+    restart: always
+    networks:
+      - app-network
+    
+
+  mongo:
+    image: mongo:7.0
+    container_name: apirest_mongo_prod
+    env_file:
+      - .env.prod
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+    ports:
+      - ${MONGODB_PUBLIC_PORT}:${MONGODB_PORT}
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0.44
+    container_name: apirest_mysql_prod
+    env_file:
+      - .env.prod
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
+    ports:
+      - ${MYSQL_PUBLIC_PORT}:${MYSQL_PORT}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/models/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+  mysql_data:
+
+networks:
+  app-network:

@@ -1,0 +1,59 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile      
+    image: node-api:latest
+    container_name: nodeApi
+    command: npm start
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - MONGODB_URI=mongodb://mongo:27017/apirestdb
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=apirestdb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app:cached
+      - /usr/src/app/node_modules
+      - ./entrypoint:/usr/src/app/entrypoint:ro
+    depends_on:
+      - mongo
+      - mysql     
+    
+    entrypoint: ["/usr/src/app/entrypoint/wait-for-it.sh", "mysql:3306", "--", "npm", "start"]
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7.0
+    container_name: apirest_mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=apirestdb
+    restart: unless-stopped
+
+
+  mysql:  
+    image: mysql:8.0.44
+    container_name: apirest_mysql 
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: apirestdb
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/models/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  mysql_data:

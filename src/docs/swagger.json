@@ -1,0 +1,247 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Tarea de API REST",
+    "description": "Documentacion de una API RESTful que utiliza Express.js, MongoDB, MySQL, y Autenticación JWT",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/clientsRoutes": {
+      "get": {
+        "description": "Retrieve a list of clients",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "description": "Create a new client",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "client",
+            "required": true,
+            "schema": { "type": "object" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" }
+        }
+      }
+    },
+    "/api/clientsRoutes/{id}": {
+      "get": {
+        "description": "Retrieve a specific client by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "put": {
+        "description": "Update an existing client",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "client", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "delete": {
+        "description": "Delete a client",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/api/usersRoutes": {
+      "get": {
+        "description": "Retrieve a list of users",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "description": "Create a new user",
+        "parameters": [
+          { "in": "body", "name": "user", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "201": { "description": "Created" }
+        }
+      }
+    },
+    "/api/usersRoutes/{id}": {
+      "get": {
+        "description": "Retrieve a specific user by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "put": {
+        "description": "Update an existing user",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "user", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "delete": {
+        "description": "Delete a user",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/api/projectsRoutes": {
+      "get": {
+        "description": "Retrieve a list of projects",
+        "responses": {
+          "200": { "description": "OK" }
+        }
+      },
+      "post": {
+        "description": "Create a new project",
+        "parameters": [
+          { "in": "body", "name": "project", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "201": { "description": "Created" }
+        }
+      }
+    },
+    "/api/projectsRoutes/{id}": {
+      "get": {
+        "description": "Retrieve a specific project by ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "put": {
+        "description": "Update an existing project",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" },
+          { "in": "body", "name": "project", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "delete": {
+        "description": "Delete a project",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "description": "Register a new user",
+        "parameters": [
+          { "in": "body", "name": "credentials", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "Authenticate user and return token",
+        "parameters": [
+          { "in": "body", "name": "credentials", "required": true, "schema": { "type": "object" } }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    }
+  }
+}
